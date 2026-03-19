@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>HOMEWORK | The Fast Learner Mission</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800;900&display=swap" rel="stylesheet">
+    <style>
+        body { 
+            font-family: 'Inter', sans-serif; 
+            background-color: #0a0a0a; 
+            color: white;
+            -webkit-tap-highlight-color: transparent;
+            overflow: hidden;
+        }
+        .brand-green { color: #1DB954; }
+        .bg-brand-green { background-color: #1DB954; }
+        .glass-card {
+            background: #141414;
+            border: 1px solid rgba(255,255,255,0.05);
+            border-radius: 24px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+        }
+        
+        .option-btn {
+            background: #1f1f1f;
+            border: 1px solid transparent;
+            transition: all 0.2s;
+            text-align: left;
+            width: 100%;
+            padding: 16px;
+            border-radius: 12px;
+            font-size: 15px;
+            color: #888;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .option-btn.selected {
+            background: rgba(29, 185, 84, 0.1);
+            border-color: #1DB954;
+            color: white;
+            font-weight: 700;
+        }
+
+        .step-card {
+            display: none;
+            animation: slideIn 0.4s ease-out forwards;
+        }
+        .step-card.active {
+            display: block;
+        }
+
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .progress-bar-container {
+            height: 4px;
+            background: #222;
+            width: 100%;
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 100;
+        }
+        #progress-fill {
+            height: 100%;
+            background: #1DB954;
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+
+        textarea, input[type="text"] {
+            background: #1f1f1f !important;
+            border: 1px solid rgba(255,255,255,0.05) !important;
+            color: white !important;
+            outline: none;
+            width: 100%;
+        }
+        textarea:focus, input[type="text"]:focus {
+            border-color: #1DB954 !important;
+        }
+    </style>
+</head>
+<body class="h-screen flex flex-col">
+
+    <div class="progress-bar-container">
+        <div id="progress-fill"></div>
+    </div>
+
+    <header class="pt-12 pb-4 px-6 text-center shrink-0">
+        <p class="text-[9px] font-black uppercase tracking-[0.4em] brand-green mb-1">Homework Mission</p>
+        <h1 id="header-title" class="text-xl font-black tracking-tight uppercase">The Fast Learner</h1>
+    </header>
+
+    <main class="flex-grow px-6 flex items-center justify-center relative overflow-hidden">
+        
+        <!-- INTRO CARD -->
+        <div id="step-0" class="step-card active w-full max-w-md text-center space-y-8">
+            <div class="w-48 h-48 mx-auto bg-[#141414] rounded-3xl shadow-2xl overflow-hidden relative border border-white/5 flex items-center justify-center">
+                <i class="fas fa-bolt text-6xl brand-green"></i>
+            </div>
+            <div class="space-y-2">
+                <h2 class="text-4xl font-black tracking-tighter uppercase leading-none">Ready for the<br>Challenge?</h2>
+                <p class="text-[#888] text-sm">15 Tasks • Conditionals • Vocab Mastery</p>
+            </div>
+            <button onclick="nextStep()" class="w-full py-5 bg-brand-green text-black font-black uppercase tracking-widest rounded-full text-sm shadow-xl">
+                Start Mission
+            </button>
+        </div>
+
+        <!-- GRAMMAR (1-5) -->
+        <div id="step-1" class="step-card w-full max-w-md glass-card p-8 space-y-6" data-type="choice" data-correct="1">
+            <span class="text-[10px] font-black uppercase tracking-widest brand-green">Grammar 1/5</span>
+            <p class="text-xl font-bold leading-tight">If you _____ (practice) every day, your English _____ (improve).</p>
+            <div class="space-y-3">
+                <button class="option-btn" onclick="selectOption(this)">practice / improves</button>
+                <button class="option-btn" onclick="selectOption(this)">practice / will improve</button>
+                <button class="option-btn" onclick="selectOption(this)">practices / will improve</button>
+            </div>
+        </div>
+
+        <div id="step-2" class="step-card w-full max-w-md glass-card p-8 space-y-6" data-type="choice" data-correct="0">
+            <span class="text-[10px] font-black uppercase tracking-widest brand-green">Grammar 2/5</span>
+            <p class="text-xl font-bold leading-tight">When you _____ (teach) someone, your brain _____ (organize) the info.</p>
+            <div class="space-y-3">
+                <button class="option-btn" onclick="selectOption(this)">teach / organizes</button>
+                <button class="option-btn" onclick="selectOption(this)">will teach / organizes</button>
+                <button class="option-btn" onclick="selectOption(this)">teach / will organize</button>
+            </div>
+        </div>
+
+        <div id="step-3" class="step-card w-full max-w-md glass-card p-8 space-y-6" data-type="choice" data-correct="2">
+            <span class="text-[10px] font-black uppercase tracking-widest brand-green">Grammar 3/5</span>
+            <p class="text-xl font-bold leading-tight">I will keep speaking English _____ I make mistakes.</p>
+            <div class="space-y-3">
+                <button class="option-btn" onclick="selectOption(this)">if</button>
+                <button class="option-btn" onclick="selectOption(this)">when</button>
+                <button class="option-btn" onclick="selectOption(this)">even if</button>
+            </div>
+        </div>
+
+        <div id="step-4" class="step-card w-full max-w-md glass-card p-8 space-y-6" data-type="choice" data-correct="0">
+            <span class="text-[10px] font-black uppercase tracking-widest brand-green">Grammar 4/5</span>
+            <p class="text-xl font-bold leading-tight">If he _____ to master guitar, he _____ the 20% of chords.</p>
+            <div class="space-y-3">
+                <button class="option-btn" onclick="selectOption(this)">wants / should study</button>
+                <button class="option-btn" onclick="selectOption(this)">want / will study</button>
+                <button class="option-btn" onclick="selectOption(this)">will want / studies</button>
+            </div>
+        </div>
+
+        <div id="step-5" class="step-card w-full max-w-md glass-card p-8 space-y-6" data-type="choice" data-correct="1">
+            <span class="text-[10px] font-black uppercase tracking-widest brand-green">Grammar 5/5</span>
+            <p class="text-xl font-bold leading-tight">Select the correct First Conditional sentence:</p>
+            <div class="space-y-3">
+                <button class="option-btn" onclick="selectOption(this)">If I isolate my mistakes, I improve.</button>
+                <button class="option-btn" onclick="selectOption(this)">If I isolate my mistakes, I will improve.</button>
+                <button class="option-btn" onclick="selectOption(this)">If I will isolate my mistakes, I improve.</button>
+            </div>
+        </div>
+
+        <!-- VOCAB (6-10) -->
+        <div id="step-6" class="step-card w-full max-w-md glass-card p-8 space-y-6" data-type="choice" data-correct="2">
+            <span class="text-[10px] font-black uppercase tracking-widest brand-green">Vocab 1/5</span>
+            <p class="text-xl font-bold leading-tight">What does "Nonsense" mean?</p>
+            <div class="space-y-3">
+                <button class="option-btn" onclick="selectOption(this)">Very important info.</button>
+                <button class="option-btn" onclick="selectOption(this)">A difficult grammar rule.</button>
+                <button class="option-btn" onclick="selectOption(this)">Silly or untrue ideas.</button>
+            </div>
+        </div>
+
+        <div id="step-7" class="step-card w-full max-w-md glass-card p-8 space-y-6" data-type="choice" data-correct="0">
+            <span class="text-[10px] font-black uppercase tracking-widest brand-green">Vocab 2/5</span>
+            <p class="text-xl font-bold leading-tight">To "Drill Down" means to:</p>
+            <div class="space-y-3">
+                <button class="option-btn" onclick="selectOption(this)">Practice a small piece intensely.</button>
+                <button class="option-btn" onclick="selectOption(this)">Learn many things at once.</button>
+                <button class="option-btn" onclick="selectOption(this)">Forget what you learned.</button>
+            </div>
+        </div>
+
+        <div id="step-8" class="step-card w-full max-w-md glass-card p-8 space-y-6" data-type="choice" data-correct="1">
+            <span class="text-[10px] font-black uppercase tracking-widest brand-green">Vocab 3/5</span>
+            <p class="text-xl font-bold leading-tight">If something is "Obscure", it is:</p>
+            <div class="space-y-3">
+                <button class="option-btn" onclick="selectOption(this)">Very famous.</button>
+                <button class="option-btn" onclick="selectOption(this)">Unknown or difficult to see.</button>
+                <button class="option-btn" onclick="selectOption(this)">Easy to understand.</button>
+            </div>
+        </div>
+
+        <div id="step-9" class="step-card w-full max-w-md glass-card p-8 space-y-6" data-type="choice" data-correct="2">
+            <span class="text-[10px] font-black uppercase tracking-widest brand-green">Vocab 4/5</span>
+            <p class="text-xl font-bold leading-tight">If you "Mess Up", you:</p>
+            <div class="space-y-3">
+                <button class="option-btn" onclick="selectOption(this)">Clean your room.</button>
+                <button class="option-btn" onclick="selectOption(this)">Improve your score.</button>
+                <button class="option-btn" onclick="selectOption(this)">Make a mistake.</button>
+            </div>
+        </div>
+
+        <div id="step-10" class="step-card w-full max-w-md glass-card p-8 space-y-6" data-type="choice" data-correct="1">
+            <span class="text-[10px] font-black uppercase tracking-widest brand-green">Vocab 5/5</span>
+            <p class="text-xl font-bold leading-tight">To "Reinforce" an idea means to:</p>
+            <div class="space-y-3">
+                <button class="option-btn" onclick="selectOption(this)">Delete it from memory.</button>
+                <button class="option-btn" onclick="selectOption(this)">Make it stronger.</button>
+                <button class="option-btn" onclick="selectOption(this)">Explain it fast.</button>
+            </div>
+        </div>
+
+        <!-- WRITING (11-15) -->
+        <div id="step-11" class="step-card w-full max-w-md glass-card p-8 space-y-6">
+            <span class="text-[10px] font-black uppercase tracking-widest brand-green">Writing 1/5</span>
+            <p class="text-xl font-bold leading-tight">Complete using First Conditional:</p>
+            <p class="text-sm text-[#888] italic mb-4">"If I study the 80/20 rule..."</p>
+            <textarea class="p-4 rounded-xl text-sm h-32 resize-none" placeholder="Type your ending..."></textarea>
+        </div>
+
+        <div id="step-12" class="step-card w-full max-w-md glass-card p-8 space-y-6">
+            <span class="text-[10px] font-black uppercase tracking-widest brand-green">Writing 2/5</span>
+            <p class="text-xl font-bold leading-tight">In your own words, what is the 80/20 rule?</p>
+            <textarea class="p-4 rounded-xl text-sm h-32 resize-none" placeholder="Explain the concept..."></textarea>
+        </div>
+
+        <div id="step-13" class="step-card w-full max-w-md glass-card p-8 space-y-6">
+            <span class="text-[10px] font-black uppercase tracking-widest brand-green">Writing 3/5</span>
+            <p class="text-xl font-bold leading-tight">Write a sentence using the word <span class="brand-green">REINFORCE</span>.</p>
+            <input type="text" class="p-4 rounded-xl text-sm" placeholder="e.g. Listening helps reinforce vocab.">
+        </div>
+
+        <div id="step-14" class="step-card w-full max-w-md glass-card p-8 space-y-6">
+            <span class="text-[10px] font-black uppercase tracking-widest brand-green">Writing 4/5</span>
+            <p class="text-xl font-bold leading-tight">What is one skill you want to <span class="brand-green">MASTER</span>?</p>
+            <input type="text" class="p-4 rounded-xl text-sm" placeholder="I want to master...">
+        </div>
+
+        <div id="step-15" class="step-card w-full max-w-md glass-card p-8 space-y-6">
+            <span class="text-[10px] font-black uppercase tracking-widest brand-green">Final Task 5/5</span>
+            <p class="text-xl font-bold leading-tight">Create a sentence with <span class="brand-green">EVEN IF</span>.</p>
+            <textarea class="p-4 rounded-xl text-sm h-32 resize-none" placeholder="I will... even if..."></textarea>
+        </div>
+
+        <!-- RESULT CARD -->
+        <div id="step-result" class="step-card w-full max-w-md text-center space-y-8">
+            <div class="w-24 h-24 bg-brand-green rounded-full flex items-center justify-center mx-auto text-black text-4xl shadow-[0_0_40px_rgba(29,185,84,0.3)]">
+                <i class="fas fa-trophy"></i>
+            </div>
+            <div class="space-y-2">
+                <h2 class="text-4xl font-black tracking-tighter uppercase">Mission Done</h2>
+                <p id="result-score" class="text-xl font-bold brand-green"></p>
+                <p class="text-[#888] text-sm">Tira um screenshot e envia ao teu professor!</p>
+            </div>
+            <button onclick="location.reload()" class="w-full py-4 bg-white/5 border border-white/10 text-white font-black uppercase tracking-widest rounded-full text-xs">
+                Restart Homework
+            </button>
+        </div>
+
+    </main>
+
+    <!-- Navigation Footer -->
+    <footer id="nav-footer" class="p-6 shrink-0 flex gap-4 max-w-md mx-auto w-full">
+        <button id="prev-btn" onclick="prevStep()" class="flex-1 py-4 bg-white/5 border border-white/10 rounded-full font-black uppercase tracking-widest text-[10px] hidden">Back</button>
+        <button id="next-btn" onclick="nextStep()" class="flex-[2] py-4 bg-white text-black rounded-full font-black uppercase tracking-widest text-[10px] hidden">Next</button>
+    </footer>
+
+    <script>
+        let currentStep = 0;
+        const totalSteps = 16; 
+
+        function updateProgress() {
+            const percentage = (currentStep / (totalSteps - 1)) * 100;
+            document.getElementById('progress-fill').style.width = percentage + '%';
+        }
+
+        function selectOption(btn) {
+            const parent = btn.parentElement;
+            parent.querySelectorAll('.option-btn').forEach(b => b.classList.remove('selected'));
+            btn.classList.add('selected');
+        }
+
+        function nextStep() {
+            const steps = document.querySelectorAll('.step-card');
+            if (currentStep < steps.length - 1) {
+                steps[currentStep].classList.remove('active');
+                currentStep++;
+                steps[currentStep].classList.add('active');
+                
+                if (currentStep === steps.length - 1) {
+                    calculateResult();
+                }
+            }
+            updateUI();
+        }
+
+        function prevStep() {
+            const steps = document.querySelectorAll('.step-card');
+            if (currentStep > 0) {
+                steps[currentStep].classList.remove('active');
+                currentStep--;
+                steps[currentStep].classList.add('active');
+            }
+            updateUI();
+        }
+
+        function updateUI() {
+            const nextBtn = document.getElementById('next-btn');
+            const prevBtn = document.getElementById('prev-btn');
+            
+            if (currentStep === 0) {
+                nextBtn.classList.add('hidden');
+                prevBtn.classList.add('hidden');
+            } else if (currentStep === totalSteps - 1) {
+                nextBtn.classList.add('hidden');
+                prevBtn.classList.add('hidden');
+            } else {
+                nextBtn.classList.remove('hidden');
+                prevBtn.classList.remove('hidden');
+                nextBtn.innerText = currentStep === totalSteps - 2 ? "Finish" : "Next";
+            }
+            updateProgress();
+        }
+
+        function calculateResult() {
+            const questions = document.querySelectorAll('[data-type="choice"]');
+            let correct = 0;
+            questions.forEach(q => {
+                const correctIdx = parseInt(q.getAttribute('data-correct'));
+                const selected = q.querySelector('.option-btn.selected');
+                if (selected) {
+                    const buttons = Array.from(q.querySelectorAll('.option-btn'));
+                    if (buttons.indexOf(selected) === correctIdx) {
+                        correct++;
+                    }
+                }
+            });
+            document.getElementById('result-score').innerText = `Scored ${correct} / ${questions.length} on Quiz!`;
+        }
+    </script>
+
+</body>
+</html>
